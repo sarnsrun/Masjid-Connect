@@ -8,10 +8,10 @@
 
 | Name | Matric No | Assigned Tasks |
 | :---- | :---- | :---- |
-| Aisar Nasrun Bin Ramjee | 2216791 | \[e.g., Documentation, UI/UX Design, Frontend \- Prayer Times Screen\] |
-| Farhan Haikal Bin Hishamuddin | 2219173 | \[e.g., Backend \- Authentication, Database Setup\] |
-| Muhammad Daniel | 2218857 | \[e.g., Deployment, Frontend \- Events Screen, State Management\] |
-| Muzammel | 2310939 | \[e.g., Testing, Frontend \- Profile Screen, API Integration\] |
+| Aisar Nasrun Bin Ramjee | 2216791 | \Documentation, UI/UX Design, Frontend \- Prayer Times Screen\ |
+| Farhan Haikal Bin Hishamuddin | 2219173 | \Backend \- Authentication, Database Setup\ |
+| Muhammad Daniel | 2218857 | \, Deployment, Frontend \- Events Screen, State Management\ |
+| Muzammel | 2310939 | \Testing, Frontend \- Profile Screen, API Integration\ |
 
 ### **1.2 Project Overview**
 

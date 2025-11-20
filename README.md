@@ -1,6 +1,6 @@
 # **Masjid-Connect Mobile Application**
 
-## **1\. Project Initiation - Aisar Nasrun (2216791) & Farhan Haikal**
+## **1\. Project Initiation - Aisar Nasrun, Farhan Haikal, Muhammad Daniel, Muzamil**
 
 ### **1.1 Group Details**
 

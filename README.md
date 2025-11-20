@@ -1,6 +1,6 @@
 # **Masjid-Connect Mobile Application**
 
-## **1\. Project Initiation**
+## **1\. Project Initiation - Aisar Nasrun (2216791) & Farhan Haikal**
 
 ### **1.1 Group Details**
 
@@ -45,7 +45,7 @@
 6. **Masjid Locator:** Map view to find nearby masjids.  
 7. **Digital Tasbih:** Simple counter for dhikr.
 
-## **2\. Requirement Analysis & Planning**
+## **2\. Requirement Analysis & Planning - Aisar Nasrun (2216791)**
 
 ### **2.1 Technical Feasibility**
 
@@ -72,7 +72,7 @@
 * If logged out \-\> Show Login Screen \-\> *User* inputs credentials \-\> *Firebase* verifies \-\> Access granted.  
 * If logged in \-\> Show Home Screen \-\> *App* fetches location \-\> *App* calls Prayer Time API \-\> Display times.
 
-## **3\. Planning (Gantt Chart)**
+## **3\. Planning (Gantt Chart) - Farhan Haikal**
 
 **Timeline:** \[Start Date\] to \[Presentation Date\]
 
@@ -89,7 +89,7 @@
 
 *(Note: Please insert an actual image of your Gantt Chart here if available)*
 
-## **4\. Project Design**
+## **4\. Project Design - Muhammad Daniel**
 
 ### **4.1 User Interface (UI)**
 
@@ -110,7 +110,7 @@ The app utilizes Flutter's Material Design widgets to ensure a native look and f
 * **Typography:** Uniform font styles for headings and body text throughout the app.  
 * **Icons:** Consistent icon sets (Material Icons) for navigation and actions.
 
-## **5\. Project Development**
+## **5\. Project Development - Muzammel**
 
 ### **5.1 Functionality Implementation**
 

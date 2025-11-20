@@ -75,7 +75,6 @@
 ## **3\. Planning (Gantt Chart) - Farhan Haikal**
 
 **Timeline:** \[Start Date\] to \[Presentation Date\]
-
 | Phase | Task | Duration | Start Date | End Date |
 | :---- | :---- | :---- | :---- | :---- |
 | **Initiation** | Idea Proposal & Project Setup | 1 Week | \[Date\] | \[Date\] |
@@ -85,9 +84,10 @@
 |  | Backend Integration (Firebase) | 2 Weeks | \[Date\] | \[Date\] |
 |  | API & Logic Implementation | 2 Weeks | \[Date\] | \[Date\] |
 | **Testing** | Bug Fixes & Usability Testing | 1 Week | \[Date\] | \[Date\] |
-| **Final** | Documentation & Presentation Prep | 1 Week | \[Date\] | \[Date\] |
+| **Final** | Documentation & Presentation Prep | 1 Week | \[Date\] | \[Date\]|
 
-*(Note: Please insert an actual image of your Gantt Chart here if available)*
+
+
 
 ## **4\. Project Design - Muhammad Daniel**
 

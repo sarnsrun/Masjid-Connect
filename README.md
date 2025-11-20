@@ -1,6 +1,6 @@
 # **Masjid-Connect Mobile Application**
 
-## **1\. Project Initiation - Aisar Nasrun, Farhan Haikal, Muhammad Daniel, Muzamil**
+## **1\. Project Initiation - Aisar Nasrun, Farhan Haikal, Muhammad Daniel, Muzammel**
 
 ### **1.1 Group Details**
 

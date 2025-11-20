@@ -74,18 +74,18 @@
 
 ## **3\. Planning (Gantt Chart) - Farhan Haikal**
 
-**Timeline:** \[Start Date\] to \[Presentation Date\]
+**Timeline:** Nov 10, 2025 to Jan 25, 2026
+
 | Phase | Task | Duration | Start Date | End Date |
 | :---- | :---- | :---- | :---- | :---- |
-| **Initiation** | Idea Proposal & Project Setup | 1 Week | \[Date\] | \[Date\] |
-| **Analysis** | Requirement Gathering & Feasibility | 1 Week | \[Date\] | \[Date\] |
-| **Design** | UI/UX Design (Figma/Mockups) | 2 Weeks | \[Date\] | \[Date\] |
-| **Development** | Frontend Implementation (Widgets) | 3 Weeks | \[Date\] | \[Date\] |
-|  | Backend Integration (Firebase) | 2 Weeks | \[Date\] | \[Date\] |
-|  | API & Logic Implementation | 2 Weeks | \[Date\] | \[Date\] |
-| **Testing** | Bug Fixes & Usability Testing | 1 Week | \[Date\] | \[Date\] |
-| **Final** | Documentation & Presentation Prep | 1 Week | \[Date\] | \[Date\]|
-
+| **Initiation** | Idea Proposal & Project Setup | 1 Week | Nov 10, 2025 | Nov 16, 2025 |
+| **Analysis** | Requirement Gathering & Feasibility | 1 Week | Nov 17, 2025 | Nov 23, 2025 |
+| **Design** | UI/UX Design (Figma/Mockups) | 2 Weeks | Nov 24, 2025 | Dec 07, 2025 |
+| **Development** | Frontend Implementation (Widgets) | 3 Weeks | Dec 08, 2025 | Dec 28, 2025 |
+| | Backend Integration (Firebase) | 2 Weeks | Dec 15, 2025 | Dec 28, 2025 |
+| | API & Logic Implementation | 2 Weeks | Dec 29, 2025 | Jan 11, 2026 |
+| **Testing** | Bug Fixes & Usability Testing | 1 Week | Jan 12, 2026 | Jan 18, 2026 |
+| **Final** | Documentation & Presentation Prep | 1 Week | Jan 19, 2026 | Jan 25, 2026 |
 
 
 

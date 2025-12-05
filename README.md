@@ -86,6 +86,7 @@ Events ↔ Donation ↔ Profile ↔ Spiritual Tools (Qibla/Tasbih)
 ### **2.3 Planning (Gantt Chart)**
 
 **Timeline:** 10 November 2025 \- 25 January 2026
+<img width="1024" height="768" alt="image" src="https://github.com/user-attachments/assets/3ab5e278-4412-4ed1-ad2a-f1d269ee40cc" />
 
 ![][image1]
 

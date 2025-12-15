@@ -68,13 +68,8 @@ The purpose of "Masjid-Connect" is to centralize and modernize mosque management
 
 ### **2.2 Logical Design**
 
-A. Screen Navigation Flow:
+<img width="545" height="1432" alt="Screen Navigation drawio" src="https://github.com/user-attachments/assets/bd84542d-d222-46db-b0e4-d3f42dea3b1c" />
 
-Splash Screen → Login/Register → Home Screen (Dashboard)
-
-From Home, the Bottom Navigation Bar leads to:
-
-Events ↔ Donation ↔ Profile ↔ Spiritual Tools (Qibla/Tasbih) 
 
 **B. Sequence Diagram (Authentication & Data Fetch):**
 

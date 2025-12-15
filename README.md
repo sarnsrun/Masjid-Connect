@@ -1,4 +1,4 @@
-# **Masjid-Connect Mobile Application**
+<img width="289" height="407" alt="image" src="https://github.com/user-attachments/assets/6db63b83-acef-46ee-92bd-a392df3357a7" /># **Masjid-Connect Mobile Application**
 
 ### **Group Details**
 
@@ -69,12 +69,7 @@ The purpose of "Masjid-Connect" is to centralize and modernize mosque management
 ### **2.2 Logical Design**
 
 A. Screen Navigation Flow:
-
-Splash Screen → Login/Register → Home Screen (Dashboard)
-
-From Home, the Bottom Navigation Bar leads to:
-
-Events ↔ Donation ↔ Profile ↔ Spiritual Tools (Qibla/Tasbih) 
+<img width="289" height="407" alt="image" src="https://github.com/user-attachments/assets/e5468b85-3972-49af-aae2-79e2925d1dbe" />
 
 **B. Sequence Diagram (Authentication & Data Fetch):**
 

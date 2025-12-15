@@ -1,4 +1,3 @@
-<img width="289" height="407" alt="image" src="https://github.com/user-attachments/assets/6db63b83-acef-46ee-92bd-a392df3357a7" /># **Masjid-Connect Mobile Application**
 
 ### **Group Details**
 

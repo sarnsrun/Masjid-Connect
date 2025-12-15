@@ -1,4 +1,4 @@
-<img width="289" height="407" alt="image" src="https://github.com/user-attachments/assets/6db63b83-acef-46ee-92bd-a392df3357a7" /># **Masjid-Connect Mobile Application**
+# **Masjid-Connect Mobile Application**
 
 ### **Group Details**
 
@@ -64,12 +64,17 @@ The purpose of "Masjid-Connect" is to centralize and modernize mosque management
 * **Packages & Plugins:**  
   * firebase\_auth: For secure user management.  
   * geolocator: For fetching device coordinates.  
-  * http: For consuming external Prayer Time APIs (e.g., Aladhan).
+  * http: For consuming external Prayer Time APIs (e.g., JAKIM eSolat API).
 
 ### **2.2 Logical Design**
 
 A. Screen Navigation Flow:
-<img width="289" height="407" alt="image" src="https://github.com/user-attachments/assets/e5468b85-3972-49af-aae2-79e2925d1dbe" />
+
+Splash Screen → Login/Register → Home Screen (Dashboard)
+
+From Home, the Bottom Navigation Bar leads to:
+
+Events ↔ Donation ↔ Profile ↔ Spiritual Tools (Qibla/Tasbih) 
 
 **B. Sequence Diagram (Authentication & Data Fetch):**
 
@@ -84,6 +89,42 @@ A. Screen Navigation Flow:
 <img width="1024" height="768" alt="image" src="https://github.com/user-attachments/assets/3ab5e278-4412-4ed1-ad2a-f1d269ee40cc" />
 
 ![][image1]
+
+### **2.4 Project Initiation**
+ **Duration:** November Week 1 – Week 2
+ **Responsible Member:** Aisar Nasrun Bin Ramjee
+ **Key Activities:**
+    * **Problem Identification:** Identified the main issue of "information overload" in mosque communities due to fragmented nature of communication channels like WhatsApp and physical boards.
+    * **Objective Definition:** Established the primary goal to centralize mosque management and digitize individual that donates.
+    * **Milestone:** Completion of the Ideal Proposal and Project Setup.
+
+### **2.5Requirement Analysis**
+* **Duration:** November Week 2 – Week 3
+* **Responsible Member:** Farhan Haikal Bin Hishamuddin
+* **Key Activities:**
+    * **Feasibility Study:** Evaluated the technical requirements, confirming **Flutter** (Dart) for the frontend and **Firebase** (Cloud Firestore) for the backend to ensure platform compatibility.
+    * **Data Modeling:** Designed the Logical Schema for CRUD operations, specifically for Users, Events, and Prayer Time settings.
+    * **Plugin Assessment:** Selected essential packages such as `firebase_auth` for security, `geolocator` for location services, and `http` for the JAKIM eSolat API integration.
+    * **Milestone:** Finalized Requirement Specification and Logical Design.
+
+### **2.6 Design**
+* **Duration:** November Week 4 – December Week 1
+* **Responsible Member:** Muhammad Daniel
+* **Key Activities:**
+    * **UI/UX Design:** Developed the application interface using Flutter's Material Design principles, utilizing a Green/Gold/White color palette to reflect an Islamic aesthetic.
+    * **Screen Navigation:** Mapped the user flow from the Splash Screen to Authentication, followed by the Dashboard and specific feature tabs (Events, Donation, Profile).
+    * **Prototyping:** Structured the layout to prioritize high-frequency information, such as Prayer Times, at the top of the home screen to reduce cognitive load.
+    * **Milestone:** Completion of UI Wireframes and Screen Navigation Flow.
+
+### **2.7 Development**
+* **Duration:** December Week 1 – December Week 4
+* **Responsible Member:** Muzammel
+* **Key Activities:**
+    * **Frontend Implementation:** Implemented the UI code using modular widgets (e.g., `Prayer Time Card`, `Event Tile`) to ensure code reusability.
+    * **Backend Integration:** Connected the Flutter app to Firebase services for real-time database management and user authentication.
+    * **Logic Implementation:** Coded the core functionalities, including the API fetch for prayer times and logic for the Qibla finder.
+    * **Milestone:** Delivery of a functional Alpha version of the Masjid-Connect application.
+
 
 ## **3\. Project Design**
 

@@ -71,7 +71,7 @@ The purpose of "Masjid-Connect" is to centralize and modernize mosque management
 <img width="349" height="581" alt="Screen Navigation drawio (1)" src="https://github.com/user-attachments/assets/9293678c-f636-4e3b-96c4-857d28b79271" />
 
 **Sequence Diagram**
-![/assets/images/sequencediagram.png]
+![sequence diagram](/assets/images/sequencediagram.png)
 
 **B. Sequence Diagram (Authentication & Data Fetch):**
 

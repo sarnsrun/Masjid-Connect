@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masjid_connect_app/screens/homepage.dart';
+import 'package:masjid_connect_app/screens/donation_page.dart';
 
 // --- COLOR CONSTANTS (Adjust these to match your theme) ---
 const Color kPrimaryGreen = Color(0xFF0D5D40); // Example Green
@@ -20,7 +21,7 @@ class _MainLayoutState extends State<MainLayout> {
   // NOTE: I added placeholders for the missing pages so the app doesn't crash
   final List<Widget> _pages = const [
     HomePage(),                     // Index 0: Home
-    Center(child: Text("Donation Page")), // Index 1: Donation (Placeholder)
+    DonationPage(),                  // Index 1: Donation
     Center(child: Text("Tasbih Page")),   // Index 2: Tasbih (Placeholder)
     Center(child: Text("Events Page")),   // Index 3: Events (Placeholder)
     Center(child: Text("Info Page")),     // Index 4: Info (Placeholder)

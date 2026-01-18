@@ -309,6 +309,13 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           
+          // --- ADD THIS BLOCK TO SHOW THE NAV BAR ---
+          Positioned(
+            left: 20,
+            right: 20,
+            bottom: 30, 
+            child: _buildBottomNavBar(),
+          ),
          
         ],
       ),

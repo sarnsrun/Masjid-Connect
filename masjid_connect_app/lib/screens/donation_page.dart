@@ -69,10 +69,6 @@ class DonationPage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Custom Header (Similar to Home Page)
-          _buildHeader(),
-          
-          // List Content
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.fromLTRB(16, 10, 16, 100), // Bottom padding for nav bar
@@ -87,28 +83,6 @@ class DonationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      padding: const EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 20),
-      decoration: BoxDecoration(
-        color: kPrimaryGreen,
-        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(30)),
-        boxShadow: [
-          const BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 5))
-        ]
-      ),
-      child: Center(
-        child: Text(
-          "Donation Campaigns",
-          style: TextStyle(
-            color: kAccentGold,
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget _buildCampaignCard(BuildContext context, Campaign campaign) {
     return GestureDetector(

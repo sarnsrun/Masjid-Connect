@@ -1,17 +1,7 @@
 import 'package:flutter/material.dart';
-
-
-// --- IMPORTS ---
-import 'navigation_layout.dart'; 
-
-// --- PAGE IMPORTS FOR ROUTES ---
-import 'package:masjid_connect_app/screens/homepage.dart';
-import 'package:masjid_connect_app/screens/donation_page.dart';
-
+import 'screens/login_page.dart';
 
 void main() {
-  
-
   runApp(const MasjidConnectApp());
 }
 
@@ -21,20 +11,19 @@ class MasjidConnectApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'TimeFission',
+      title: 'Masjid Connect',
       debugShowCheckedModeBanner: false,
-      
       theme: ThemeData(
         useMaterial3: true,
+        fontFamily: 'Roboto',
+        scaffoldBackgroundColor: Colors.transparent,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF4A7BEE), 
+          seedColor: const Color(0xFF0A4D3C),
         ),
       ),
-
-home: const MainLayout(),
-    
-     
+      
+      // Set the Login Page as the first screen
+      home: const LoginPage(),
     );
   }
 }
-

@@ -5,7 +5,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
 
-
+// --- PAGE IMPORTS ---
+import 'login_page.dart';
+import 'donation_page.dart';
+import 'tasbih_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,27 +18,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // --- 1. COLOR PALETTE ---
+  // --- 1. SETUP & VARIABLES ---
+  
+  // Key to control the Scaffold (for opening the Drawer)
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  // Color Palette
   final Color kPrimaryGreen = const Color(0xFF0A4D3C);
   final Color kAccentGold = const Color(0xFFC5A059);
   final Color kInactiveGrey = const Color(0xFF8FA7A3);
 
-  // --- 2. VARIABLES ---
-  
-  // Location
+  // Location Variables
   String _currentAddress = "Locating...";
   String _mosqueName = "Finding nearest mosque...";
 
-  // Data
-  List<Map<String, String>> _prayerTimes = []; // Starts empty
+  // Data Variables
+  List<Map<String, String>> _prayerTimes = []; 
   String _nextPrayerName = "Fajr"; 
 
-  // Timer Logic
+  // Timer Logic Variables
   Timer? _timer;
   DateTime? _targetAdhanTime; 
   DateTime? _targetIqamatTime;
   Duration _timeUntilAdhan = Duration.zero;
   Duration _timeUntilIqamat = Duration.zero;
+
+  // Bottom Nav Selection
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -44,13 +53,13 @@ class _HomePageState extends State<HomePage> {
     _getUserLocation();
   }
 
-  // --- 3. LOCATION & API LOGIC ---
+  // --- 2. LOCATION & API LOGIC ---
 
   Future<void> _getUserLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Check GPS Service
+    // Check GPS
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       setState(() => _currentAddress = "Location services disabled");
@@ -85,7 +94,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _currentAddress = "${place.locality}, ${place.administrativeArea}";
         
-        // Simulate finding a mosque based on state
+        // Logic to simulate finding specific mosque
         if (place.administrativeArea != null && place.administrativeArea!.contains("Selangor")) {
            _mosqueName = "SULTAN HAJI AHMAD SHAH MOSQUE";
         } else {
@@ -103,7 +112,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _fetchPrayerTimes(String city) async {
-    // Determine Zone Code (Simple mapping)
+    // Determine Zone Code
     String zoneCode = "WLY01"; // Default KL
     String c = city.toLowerCase();
     
@@ -147,14 +156,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   String _cleanTime(String fullTime) {
-    // Remove seconds from "05:45:00"
     if (fullTime.length >= 5) {
       return fullTime.substring(0, 5);
     }
     return fullTime;
   }
 
-  // --- 4. SMART TIMER LOGIC ---
+  // --- 3. SMART TIMER LOGIC ---
 
   void _calculateNextPrayer() {
     if (_prayerTimes.isEmpty) return;
@@ -237,12 +245,66 @@ class _HomePageState extends State<HomePage> {
     return "${d.inHours}h ${twoDigitMinutes}m ${twoDigitSeconds}s";
   }
 
-  // --- 5. UI BUILD ---
+  // --- 4. UI BUILD ---
+
+  // Content for Home Tab
+  Widget _buildHomeContent() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildMosqueHeader(),
+          const SizedBox(height: 10),
+          _buildTimerCard(),
+          const SizedBox(height: 10),
+          _buildTimetableCard(),
+        ],
+      ),
+    );
+  }
+
+  // Placeholder for missing Tabs
+  Widget _buildPlaceholderPage(String title, IconData icon) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: 80, color: kAccentGold.withOpacity(0.5)),
+          const SizedBox(height: 20),
+          Text(
+            "$title Page",
+            style: TextStyle(color: kAccentGold, fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10),
+          const Text("Coming Soon", style: TextStyle(color: Colors.grey)),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Pages List for IndexedStack
+    // We insert your existing DonationPage and TasbihPage here
+    final List<Widget> pages = [
+      _buildHomeContent(),                  // Index 0: Home
+      const DonationPage(),                 // Index 1: Donation (Loaded from file)
+      const TasbihPage(),                   // Index 2: Tasbih (Loaded from file)
+      _buildPlaceholderPage("Events", Icons.calendar_month),
+      _buildPlaceholderPage("Masjid Info", Icons.info),
+    ];
+
+    // Titles for AppBar
+    final List<String> titles = [
+      "Masjid-Connect", "Donation", "Digital Tasbih", "Events", "Masjid Info"
+    ];
+
     return Scaffold(
+      key: _scaffoldKey, // Attach key here for Drawer
+      drawer: const SidebarMenu(), // Attach the Sidebar
       extendBodyBehindAppBar: true, 
+      
       body: Stack(
         children: [
           // A. BACKGROUND GRADIENT
@@ -290,40 +352,30 @@ class _HomePageState extends State<HomePage> {
           // C. MAIN CONTENT
           Column(
             children: [
-              _buildCustomAppBar(),
+              _buildCustomAppBar(titles[_selectedIndex]),
               Expanded(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildMosqueHeader(),
-                      const SizedBox(height: 20),
-                      _buildTimerCard(),
-                      const SizedBox(height: 20),
-                      _buildTimetableCard(),
-                    ],
-                  ),
+                child: IndexedStack(
+                  index: _selectedIndex,
+                  children: pages,
                 ),
               ),
             ],
           ),
           
-          // --- ADD THIS BLOCK TO SHOW THE NAV BAR ---
+          // D. FLOATING NAV BAR
           Positioned(
             left: 20,
             right: 20,
             bottom: 30, 
             child: _buildBottomNavBar(),
           ),
-         
         ],
       ),
     );
   }
 
   // Header Widget
-  Widget _buildCustomAppBar() {
+  Widget _buildCustomAppBar(String title) {
     return Container(
       padding: const EdgeInsets.only(top: 40, left: 20, right: 20, bottom: 20),
       decoration: BoxDecoration(
@@ -336,21 +388,30 @@ class _HomePageState extends State<HomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // MENU BUTTON -> Opens Drawer
           IconButton(
             icon: Icon(Icons.menu, color: kAccentGold, size: 30),
-            onPressed: () {},
+            onPressed: () {
+              _scaffoldKey.currentState?.openDrawer();
+            },
           ),
           Text(
-            "Masjid-Connect",
+            title,
             style: TextStyle(
               color: kAccentGold,
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
           ),
+          // PROFILE BUTTON -> Link to Login Page
           IconButton(
             icon: Icon(Icons.person, color: kAccentGold, size: 30),
-            onPressed: () {},
+            onPressed: () {
+               Navigator.push(
+                 context,
+                 MaterialPageRoute(builder: (context) => const LoginPage()),
+               );
+            },
           ),
         ],
       ),
@@ -440,8 +501,8 @@ class _HomePageState extends State<HomePage> {
         color: kPrimaryGreen,
         gradient: LinearGradient(
           colors: [kPrimaryGreen, const Color.fromARGB(255, 10, 46, 39)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
@@ -452,7 +513,8 @@ class _HomePageState extends State<HomePage> {
         children: [
           // Header
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            // 1. Reduced vertical padding here (was 15)
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [const Color.fromARGB(255, 135, 104, 58), kAccentGold],
@@ -472,11 +534,13 @@ class _HomePageState extends State<HomePage> {
           // List
           ListView.builder(
             shrinkWrap: true,
+            padding: EdgeInsets.zero, // 2. Removes any default top/bottom padding from the list itself
             physics: const NeverScrollableScrollPhysics(),
             itemCount: _prayerTimes.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                // 3. Reduced vertical padding here (was 12) to make list items closer
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6), 
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -529,53 +593,156 @@ class _HomePageState extends State<HomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildNavItem(Icons.home, "Home", true),
-          _buildNavItem(Icons.volunteer_activism, "Donation", false),
-          _buildNavImageItem("assets/images/tasbih_false.png", "Tasbih", false),
-          _buildNavItem(Icons.calendar_month, "Events", false),
-          _buildNavItem(Icons.info_outline, "Masjid Info", false),
+          _buildNavItem(Icons.home, "Home", 0),
+          _buildNavItem(Icons.volunteer_activism, "Donation", 1),
+          _buildNavImageItem("assets/images/tasbih_false.png", "Tasbih", 2),
+          _buildNavItem(Icons.calendar_month, "Events", 3),
+          _buildNavItem(Icons.info_outline, "Masjid Info", 4),
         ],
       ),
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label, bool isActive) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon, color: isActive ? kAccentGold : Colors.white54, size: 24),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            color: isActive ? kAccentGold : Colors.white54,
-            fontSize: 10,
-          ),
-        )
-      ],
+  Widget _buildNavItem(IconData icon, String label, int index) {
+    bool isActive = _selectedIndex == index;
+    return GestureDetector(
+      onTap: () => setState(() => _selectedIndex = index),
+      child: Container(
+        color: Colors.transparent,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: isActive ? kAccentGold : Colors.white54, size: 24),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: isActive ? kAccentGold : Colors.white54,
+                fontSize: 10,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 
-  Widget _buildNavImageItem(String assetPath, String label, bool isActive) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Image.asset(
-          assetPath,
-          width: 24,
-          height: 24,
-          color: isActive ? kAccentGold : kInactiveGrey,
-          errorBuilder: (context, error, stackTrace) => Icon(Icons.error, color: kInactiveGrey), // Safety fallback
+  Widget _buildNavImageItem(String assetPath, String label, int index) {
+    bool isActive = _selectedIndex == index;
+    return GestureDetector(
+      onTap: () => setState(() => _selectedIndex = index),
+      child: Container(
+        color: Colors.transparent,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              assetPath,
+              width: 24,
+              height: 24,
+              color: isActive ? kAccentGold : kInactiveGrey,
+              errorBuilder: (context, error, stackTrace) => Icon(Icons.error, color: kInactiveGrey), 
+            ),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                color: isActive ? kAccentGold : kInactiveGrey,
+                fontSize: 10,
+              ),
+            )
+          ],
         ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: TextStyle(
-            color: isActive ? kAccentGold : kInactiveGrey,
-            fontSize: 10,
+      ),
+    );
+  }
+}
+
+// --- 5. SIDEBAR MENU CLASS ---
+class SidebarMenu extends StatelessWidget {
+  final Color kPrimaryGreen = const Color(0xFF0A4D3C);
+  final Color kAccentGold = const Color(0xFFC5A059);
+
+  const SidebarMenu({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      backgroundColor: kPrimaryGreen, 
+      child: Column(
+        children: [
+          // Menu Header (Profile)
+          UserAccountsDrawerHeader(
+            decoration: const BoxDecoration(color: Color(0xFF083E30)), 
+            accountName: Text(
+              "Masjid Member",
+              style: TextStyle(color: kAccentGold, fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            accountEmail: const Text(
+              "View Profile",
+              style: TextStyle(color: Colors.white70),
+            ),
+            currentAccountPicture: GestureDetector(
+              onTap: () {
+                Navigator.pop(context); 
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+              },
+              child: CircleAvatar(
+                backgroundColor: kAccentGold,
+                child: Icon(Icons.person, color: kPrimaryGreen, size: 40),
+              ),
+            ),
           ),
-        )
-      ],
+
+          // Menu Items List
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                _buildMenuItem(Icons.person_outline, "Profile", () {
+                    Navigator.pop(context); // Close Drawer
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LoginPage()),
+                    );
+                }),
+                _buildMenuItem(Icons.home_outlined, "Home", () { Navigator.pop(context); }),
+                _buildMenuItem(Icons.volunteer_activism_outlined, "Donation", () {}),
+                _buildMenuItem(Icons.fingerprint, "Tasbih", () {}),
+                _buildMenuItem(Icons.calendar_month_outlined, "Events", () {}),
+                _buildMenuItem(Icons.info_outline, "Masjid Info", () {}),
+              ],
+            ),
+          ),
+
+          // Settings at Bottom
+          Padding(
+            padding: const EdgeInsets.only(bottom: 30, top: 10),
+            child: Column(
+              children: [
+                const Divider(color: Colors.white24),
+                _buildMenuItem(Icons.settings_outlined, "Settings", () {}),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMenuItem(IconData icon, String title, VoidCallback onTap) {
+    return ListTile(
+      leading: Icon(icon, color: kAccentGold),
+      title: Text(
+        title,
+        style: const TextStyle(color: Colors.white, fontSize: 16),
+      ),
+      onTap: onTap,
     );
   }
 }

@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
+import 'package:masjid_connect_app/screens/events_list_page.dart';
 
 // --- PAGE IMPORTS ---
 import 'login_page.dart';
 import 'donation_page.dart';
 import 'tasbih_page.dart';
+import 'event_details_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -291,7 +293,7 @@ class _HomePageState extends State<HomePage> {
       _buildHomeContent(),                  // Index 0: Home
       const DonationPage(),                 // Index 1: Donation (Loaded from file)
       const TasbihPage(),                   // Index 2: Tasbih (Loaded from file)
-      _buildPlaceholderPage("Events", Icons.calendar_month),
+       EventsListPage(),            // Index 3: Events (Loaded from file)
       _buildPlaceholderPage("Masjid Info", Icons.info),
     ];
 

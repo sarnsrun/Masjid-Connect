@@ -85,5 +85,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'masjid-connect-33bb3.firebasestorage.app',
     measurementId: 'G-B6MKLGXKKR',
   );
-
 }

@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "52736760116",
-    "project_id": "masjid-connect-cd298",
-    "storage_bucket": "masjid-connect-cd298.firebasestorage.app"
+    "project_number": "1005795988882",
+    "project_id": "masjid-connect-33bb3",
+    "storage_bucket": "masjid-connect-33bb3.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:52736760116:android:bcc223644d5b271a5fed61",
+        "mobilesdk_app_id": "1:1005795988882:android:d78fc872f48de8e5781d4b",
         "android_client_info": {
           "package_name": "com.example.masjid_connect_app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC160F6JFCF16l25_DlOeqhn1Ygk-qvx58"
+          "current_key": "AIzaSyDch_YDfIiZ97zAoiNi3TJV0KQYj19DzXE"
         }
       ],
       "services": {

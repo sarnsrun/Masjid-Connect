@@ -41,49 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDAdRV2PnMuf8e1bfVu8LzQUE7XIwI1seE',
-    appId: '1:52736760116:web:4cd7d249582ad7895fed61',
-    messagingSenderId: '52736760116',
-    projectId: 'masjid-connect-cd298',
-    authDomain: 'masjid-connect-cd298.firebaseapp.com',
-    storageBucket: 'masjid-connect-cd298.firebasestorage.app',
-    measurementId: 'G-SSP7NEW4CG',
+    apiKey: 'AIzaSyA2qrcrySKSlOOgfFvdDVJTLZc62nGbaQo',
+    appId: '1:1005795988882:web:97217ba18883df7e781d4b',
+    messagingSenderId: '1005795988882',
+    projectId: 'masjid-connect-33bb3',
+    authDomain: 'masjid-connect-33bb3.firebaseapp.com',
+    storageBucket: 'masjid-connect-33bb3.firebasestorage.app',
+    measurementId: 'G-M7EE2PXYFK',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC160F6JFCF16l25_DlOeqhn1Ygk-qvx58',
-    appId: '1:52736760116:android:bcc223644d5b271a5fed61',
-    messagingSenderId: '52736760116',
-    projectId: 'masjid-connect-cd298',
-    storageBucket: 'masjid-connect-cd298.firebasestorage.app',
+    apiKey: 'AIzaSyDch_YDfIiZ97zAoiNi3TJV0KQYj19DzXE',
+    appId: '1:1005795988882:android:d78fc872f48de8e5781d4b',
+    messagingSenderId: '1005795988882',
+    projectId: 'masjid-connect-33bb3',
+    storageBucket: 'masjid-connect-33bb3.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCBzTayXR81-mGHconWGjYDU0SdYaHukPE',
-    appId: '1:52736760116:ios:b90c1fb6c97a48635fed61',
-    messagingSenderId: '52736760116',
-    projectId: 'masjid-connect-cd298',
-    storageBucket: 'masjid-connect-cd298.firebasestorage.app',
+    apiKey: 'AIzaSyDCvNM0SclZ1dBrUyR0JAgvGvH1A9XPxMY',
+    appId: '1:1005795988882:ios:d4e4ea1ecb45397c781d4b',
+    messagingSenderId: '1005795988882',
+    projectId: 'masjid-connect-33bb3',
+    storageBucket: 'masjid-connect-33bb3.firebasestorage.app',
     iosBundleId: 'com.example.masjidConnectApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCBzTayXR81-mGHconWGjYDU0SdYaHukPE',
-    appId: '1:52736760116:ios:b90c1fb6c97a48635fed61',
-    messagingSenderId: '52736760116',
-    projectId: 'masjid-connect-cd298',
-    storageBucket: 'masjid-connect-cd298.firebasestorage.app',
+    apiKey: 'AIzaSyDCvNM0SclZ1dBrUyR0JAgvGvH1A9XPxMY',
+    appId: '1:1005795988882:ios:d4e4ea1ecb45397c781d4b',
+    messagingSenderId: '1005795988882',
+    projectId: 'masjid-connect-33bb3',
+    storageBucket: 'masjid-connect-33bb3.firebasestorage.app',
     iosBundleId: 'com.example.masjidConnectApp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDAdRV2PnMuf8e1bfVu8LzQUE7XIwI1seE',
-    appId: '1:52736760116:web:c6a4c51351de47d05fed61',
-    messagingSenderId: '52736760116',
-    projectId: 'masjid-connect-cd298',
-    authDomain: 'masjid-connect-cd298.firebaseapp.com',
-    storageBucket: 'masjid-connect-cd298.firebasestorage.app',
-    measurementId: 'G-5K3K2KS9MY',
+    apiKey: 'AIzaSyA2qrcrySKSlOOgfFvdDVJTLZc62nGbaQo',
+    appId: '1:1005795988882:web:23891d56ff42878f781d4b',
+    messagingSenderId: '1005795988882',
+    projectId: 'masjid-connect-33bb3',
+    authDomain: 'masjid-connect-33bb3.firebaseapp.com',
+    storageBucket: 'masjid-connect-33bb3.firebasestorage.app',
+    measurementId: 'G-B6MKLGXKKR',
   );
 
 }

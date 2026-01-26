@@ -1,45 +1,43 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Event {
+  final String id;
   final String title;
   final String location;
-  final String distance;
-  final String date;
-  final String imageUrl;
-  final String organizer;
+  final double latitude;  // Add this
+  final double longitude; // Add this
+  final String date; 
+  final String time; 
   final String description;
-  final String time;
+  final String organizer;
+  final String imageUrl;
 
   Event({
+    required this.id,
     required this.title,
     required this.location,
-    required this.distance,
+    required this.latitude,
+    required this.longitude,
     required this.date,
-    required this.imageUrl,
-    required this.organizer,
-    required this.description,
     required this.time,
+    required this.description,
+    required this.organizer,
+    required this.imageUrl,
   });
-}
 
-// Sample Data based on your mockups
-final List<Event> mockEvents = [
-  Event(
-    title: "Majlis Jamuan Raya",
-    location: "Masjid Al-Salah",
-    distance: "~7 KM",
-    date: "24-Oct-2021",
-    imageUrl: "https://via.placeholder.com/400x200", // Replace with actual asset
-    organizer: "Ali Bin Abu, Pegawai Masjid",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry...",
-    time: "10 A.M To 12 P.M.",
-  ),
-  Event(
-    title: "Tadarrus Al-Quran",
-    location: "Masjid Al-Amin",
-    distance: "~7 KM",
-    date: "24-Jan-2026",
-    imageUrl: "https://via.placeholder.com/400x200",
-    organizer: "Ustaz Ahmad",
-    description: "Join us for a spiritual session of Quran recitation...",
-    time: "After Maghrib",
-  ),
-];
+  factory Event.fromFirestore(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    return Event(
+      id: doc.id,
+      title: data['title'] ?? 'Untitled Event',
+      location: data['location'] ?? 'Unknown Location',
+      latitude: (data['latitude'] ?? 3.1390).toDouble(),   // Default to KL if null
+      longitude: (data['longitude'] ?? 101.6869).toDouble(),
+      date: data['date'] ?? 'No Date',
+      time: data['time'] ?? 'No Time',
+      description: data['description'] ?? 'No Description',
+      organizer: data['organizer'] ?? 'Masjid Admin',
+      imageUrl: data['imageUrl'] ?? 'https://placehold.co/600x400/png?text=Event',
+    );
+  }
+}

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart'; // To get API Key
+import 'package:url_launcher/url_launcher.dart'; // To open external map
 import '../models/event.dart';
 
 // Your App Theme Colors
@@ -21,7 +23,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundCream, // Consistent background
+      backgroundColor: kBackgroundCream,
       appBar: AppBar(
         title: Text("Event Details", style: TextStyle(color: kAccentGold, fontWeight: FontWeight.bold)),
         backgroundColor: kPrimaryGreen,
@@ -32,7 +34,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Main Image
+            // Main Event Image
             Container(
               height: 200,
               width: double.infinity,
@@ -43,9 +45,9 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
-            
-            // Title & Organizer Info
+            const SizedBox(height: 20),
+
+            // Title & Info
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
@@ -55,29 +57,35 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                     widget.event.title,
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: kPrimaryGreen),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
                       Icon(Icons.location_on, size: 16, color: kAccentGold),
-                      SizedBox(width: 5),
-                      Text(widget.event.location, style: TextStyle(color: Colors.grey)),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: Text(
+                          widget.event.location,
+                          style: const TextStyle(color: Colors.grey),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
-                  SizedBox(height: 5),
-                  Text("By ${widget.event.organizer}", style: TextStyle(fontSize: 12, color: Colors.grey)),
+                  const SizedBox(height: 5),
+                  Text("By ${widget.event.organizer}", style: const TextStyle(fontSize: 12, color: Colors.grey)),
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // Toggle Buttons
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 16),
-              padding: EdgeInsets.all(4),
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(color: Colors.grey.shade300)
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(color: Colors.grey.shade300)
               ),
               child: Row(
                 children: [
@@ -86,32 +94,29 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                 ],
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
-            // Conditional Rendering
+            // Content Area
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: isDetailsSelected ? _buildDetailsContent() : _buildLocationContent(),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
           ],
         ),
       ),
     );
   }
 
+  // --- WIDGET BUILDERS ---
+
   Widget _buildToggleButton(String text, bool isActive) {
     return Expanded(
       child: GestureDetector(
-        onTap: () {
-          setState(() {
-            isDetailsSelected = (text == "Details");
-          });
-        },
+        onTap: () => setState(() => isDetailsSelected = (text == "Details")),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            // Use your app's Primary Green for the active state
             color: isActive ? kPrimaryGreen : Colors.transparent,
             borderRadius: BorderRadius.circular(25),
           ),
@@ -133,17 +138,14 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.event.description,
-          style: TextStyle(color: Colors.grey[800], height: 1.5),
-        ),
-        SizedBox(height: 20),
+        Text(widget.event.description, style: TextStyle(color: Colors.grey[800], height: 1.5)),
+        const SizedBox(height: 20),
         Text("Time", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: kPrimaryGreen)),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Row(
           children: [
             Icon(Icons.access_time, size: 20, color: kAccentGold),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Text(widget.event.time),
           ],
         ),
@@ -152,21 +154,122 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   }
 
   Widget _buildLocationContent() {
+    // 1. Construct the Static Map URL
+    // Format: staticmap?center=Lat,Lng&zoom=15&size=600x300&markers=color:red|Lat,Lng&key=API_KEY
+    final String apiKey = dotenv.env['GOOGLE_API_KEY'] ?? "";
+    final String staticMapUrl = "https://maps.googleapis.com/maps/api/staticmap?center=${widget.event.latitude},${widget.event.longitude}&zoom=15&size=600x300&markers=color:red%7C${widget.event.latitude},${widget.event.longitude}&key=$apiKey";
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Location Map Placeholder", style: TextStyle(color: Colors.grey)),
-        SizedBox(height: 10),
-        Container(
-          height: 200,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: kPrimaryGreen.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(15),
+        const Text("Venue Location:", style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 10),
+
+        // 2. Static Image wrapped in GestureDetector
+        GestureDetector(
+          onTap: () => _showOpenMapDialog(widget.event.latitude, widget.event.longitude),
+          child: Container(
+            height: 200,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.grey[200], // Placeholder color
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(color: kPrimaryGreen.withOpacity(0.3)),
+              image: apiKey.isNotEmpty 
+                ? DecorationImage(
+                    image: NetworkImage(staticMapUrl),
+                    fit: BoxFit.cover,
+                  )
+                : null, // Fallback if no API key
+            ),
+            child: Stack(
+              children: [
+                // If API Key is missing, show a broken icon
+                if (apiKey.isEmpty)
+                   const Center(child: Column(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     children: [
+                       Icon(Icons.map_outlined, size: 40, color: Colors.grey),
+                       Text("Map Unavailable", style: TextStyle(color: Colors.grey))
+                     ],
+                   )),
+                
+                // "Tap to Open" overlay label
+                Positioned(
+                  bottom: 10,
+                  right: 10,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.open_in_new, size: 14, color: kPrimaryGreen),
+                        const SizedBox(width: 4),
+                        Text("Open in Maps", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: kPrimaryGreen)),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          child: Center(child: Icon(Icons.map, size: 50, color: kPrimaryGreen)),
+        ),
+        const SizedBox(height: 15),
+        
+        // Location Text
+        Row(
+          children: [
+            Icon(Icons.location_on, color: kPrimaryGreen),
+            const SizedBox(width: 5),
+            Expanded(
+              child: Text(
+                widget.event.location,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: kPrimaryGreen),
+              ),
+            ),
+          ],
         ),
       ],
+    );
+  }
+
+  // 3. Logic to launch External App
+  Future<void> _showOpenMapDialog(double lat, double lng) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Open Google Maps?"),
+        content: const Text("Do you want to leave the app and view this location in Google Maps?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: kPrimaryGreen),
+            onPressed: () async {
+              Navigator.pop(context); // Close dialog
+              
+              // Construct Google Maps URL
+              final Uri googleUrl = Uri.parse('https://www.google.com/maps/search/?api=1&query=$lat,$lng');
+
+              if (await canLaunchUrl(googleUrl)) {
+                await launchUrl(googleUrl, mode: LaunchMode.externalApplication);
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Could not open maps.")),
+                );
+              }
+            },
+            child: const Text("Open", style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'homepage.dart'; 
+import '../services/google_location.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -223,6 +225,87 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
       ),
+    );
+  }
+
+  
+}
+
+
+class MosqueSearchDialog extends StatefulWidget {
+  final GoogleLocationService service;
+  final Function(String name, String id) onSelected;
+
+  const MosqueSearchDialog({super.key, required this.service, required this.onSelected});
+
+  @override
+  State<MosqueSearchDialog> createState() => _MosqueSearchDialogState();
+}
+
+class _MosqueSearchDialogState extends State<MosqueSearchDialog> {
+  final _searchController = TextEditingController();
+  List<Map<String, String>> _results = [];
+  bool _isLoading = false;
+
+  void _search() async {
+    if (_searchController.text.isEmpty) return;
+    setState(() => _isLoading = true);
+    final res = await widget.service.searchMosques(_searchController.text);
+    setState(() {
+      _results = res;
+      _isLoading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Search Mosque Database"),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: const InputDecoration(hintText: "Enter mosque name..."),
+                  ),
+                ),
+                IconButton(onPressed: _search, icon: const Icon(Icons.search)),
+              ],
+            ),
+            const SizedBox(height: 10),
+            _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : _results.isEmpty
+                    ? const Padding(padding: EdgeInsets.all(8.0), child: Text("No results found"))
+                    : SizedBox(
+                        height: 200,
+                        child: ListView.separated(
+                          itemCount: _results.length,
+                          separatorBuilder: (c, i) => const Divider(),
+                          itemBuilder: (context, index) {
+                            final mosque = _results[index];
+                            return ListTile(
+                              title: Text(mosque['name'] ?? "Unknown"),
+                              subtitle: Text(mosque['address'] ?? "", maxLines: 1, overflow: TextOverflow.ellipsis),
+                              onTap: () {
+                                widget.onSelected(mosque['name']!, mosque['id']!);
+                                Navigator.pop(context);
+                              },
+                            );
+                          },
+                        ),
+                      ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
+      ],
     );
   }
 }

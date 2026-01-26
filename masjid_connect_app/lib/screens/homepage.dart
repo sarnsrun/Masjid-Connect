@@ -291,10 +291,15 @@ class _HomePageState extends State<HomePage> {
     // We insert your existing DonationPage and TasbihPage here
     final List<Widget> pages = [
       _buildHomeContent(),                  // Index 0: Home
-      const DonationPage(),                 // Index 1: Donation (Loaded from file)
+      DonationPage(
+        userRole: 'member',             // Defaulting to member for now
+        currentMasjidName: _mosqueName, // Uses the variable defined at the top of HomePage
+      ),                // Index 1: Donation (Loaded from file)
       const TasbihPage(),                   // Index 2: Tasbih (Loaded from file)
-       EventsListPage(),            // Index 3: Events (Loaded from file)
-      _buildPlaceholderPage("Masjid Info", Icons.info),
+EventsListPage(
+        userRole: 'member',             // Defaulting to member for now
+        currentMasjidName: _mosqueName, // Uses the variable defined at the top of HomePage
+      ),      _buildPlaceholderPage("Masjid Info", Icons.info),
     ];
 
     // Titles for AppBar

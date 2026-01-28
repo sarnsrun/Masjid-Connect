@@ -6,7 +6,7 @@
 
 | Team Member | Role | Responsibilities | Key Files (.dart) |
 | --- | --- | --- | --- |
-| **Aisar** | Leader | • Homepage<br>• Geolocator Backend<br>• Jakim API Backend<br>• Login Page UI | `lib/screen/homepage.dart`<br>`lib/services/geolocator_service.dart`<br>`lib/services/jakim_api_service.dart`<br>`lib/pages/login_page.dart` |
+| **Aisar** | Leader | • Homepage<br>• Geolocator Backend<br>• Jakim API Backend<br>• Login Page UI | `lib/screen/homepage.dart`<br>`lib/services/google_location.dart`<br>`lib/services/prayer.dart`<br>`lib/screen/login_page.dart` |
 | **Daniel** | Member | • Event Page<br>• Event Logic<br>• Admin Event Panel | `lib/screen/admin_add_event.dart`<br>`lib/screen/event_details-page.dart`<br>`lib/screen/event_list_page.dart`<br>`lib/models/event.dart` |
 | **Farhan** | Member | • Firebase Setup<br>• Login Backend<br>• Donation Page<br>• Admin Donation Panel | `lib/firebase_options.dart`<br>`lib/screen/admin_add_campaign.dart`<br>`lib/screen/donation_details.dart`<br>`lib/screen/donation_page.dart` |
 | **Muzammel** | Member | • Tasbih Page<br>• General UI Design<br>• Screen Routing | `lib/screen/tasbih_page.dart`<br>`lib/main.dart`<br>`lib/navigation_layout.dart` |

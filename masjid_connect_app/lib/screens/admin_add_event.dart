@@ -1,5 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart'; // Needed for API Key
+import 'package:http/http.dart' as http; // Needed for fetching coords
+import '../services/google_location.dart';
+import 'login_page.dart'; // Reuse the search dialog from Login
 
 // Theme Colors
 final Color kPrimaryGreen = const Color(0xFF0A4D3C);
@@ -21,10 +26,17 @@ class _AddEventDialogState extends State<AddEventDialog> {
   final _organizerController = TextEditingController();
   final _imageUrlController = TextEditingController();
 
+  final GoogleLocationService _locationService = GoogleLocationService();
+
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
   String _dateText = "Select Date";
   String _timeText = "Select Time";
+  
+  // New variables to store coordinates
+  double? _eventLat;
+  double? _eventLng;
+  bool _isLoadingCoords = false;
 
   @override
   void dispose() {
@@ -35,6 +47,55 @@ class _AddEventDialogState extends State<AddEventDialog> {
     _imageUrlController.dispose();
     super.dispose();
   }
+
+  // 1. Opens the search dialog
+  void _showLocationSearch() {
+    showDialog(
+      context: context,
+      builder: (context) => MosqueSearchDialog(
+        service: _locationService, 
+        onSelected: (name, id) async {
+          setState(() {
+            _locationController.text = name;
+            _isLoadingCoords = true;
+          });
+          
+          // 2. Fetch detailed coordinates using the Place ID
+          await _fetchCoordinates(id);
+        }
+      ),
+    );
+  }
+
+  // 3. Helper to get Lat/Lng from Google Places Details API
+  Future<void> _fetchCoordinates(String placeId) async {
+    String apiKey = dotenv.env['GOOGLE_API_KEY'] ?? "";
+    if (apiKey.isEmpty) return;
+
+    final url = Uri.parse(
+      "https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=geometry&key=$apiKey"
+    );
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data["status"] == "OK") {
+          final location = data["result"]["geometry"]["location"];
+          setState(() {
+            _eventLat = location["lat"];
+            _eventLng = location["lng"];
+            _isLoadingCoords = false;
+          });
+        }
+      }
+    } catch (e) {
+      print("Error fetching coordinates: $e");
+      setState(() => _isLoadingCoords = false);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text("Add Event @ ${widget.masjidName}",
@@ -44,7 +105,26 @@ class _AddEventDialogState extends State<AddEventDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(controller: _titleController, decoration: const InputDecoration(labelText: "Event Title")),
-            TextField(controller: _locationController, decoration: const InputDecoration(labelText: "Location")),
+            const SizedBox(height: 10),
+            
+            // LOCATION FIELD WITH SPINNER
+            GestureDetector(
+              onTap: _showLocationSearch,
+              child: AbsorbPointer(
+                child: TextField(
+                  controller: _locationController,
+                  decoration: InputDecoration(
+                    labelText: "Location",
+                    hintText: "Tap to search mosque database",
+                    prefixIcon: const Icon(Icons.location_on),
+                    suffixIcon: _isLoadingCoords 
+                        ? const SizedBox(width: 20, height: 20, child: Padding(padding: EdgeInsets.all(10.0), child: CircularProgressIndicator(strokeWidth: 2))) 
+                        : null,
+                  ),
+                ),
+              ),
+            ),
+
             TextField(controller: _organizerController, decoration: const InputDecoration(labelText: "Organizer")),
             const SizedBox(height: 10),
             Row(
@@ -125,16 +205,19 @@ class _AddEventDialogState extends State<AddEventDialog> {
           ? _imageUrlController.text
           : "https://placehold.co/600x400/png?text=Event";
 
+      // SAVE WITH COORDINATES
       FirebaseFirestore.instance.collection('events').add({
         'title': _titleController.text,
         'location': _locationController.text,
+        'latitude': _eventLat ?? 3.1390, // Default fallback if fetch failed
+        'longitude': _eventLng ?? 101.6869,
         'organizer': _organizerController.text,
         'description': _descriptionController.text,
         'date': _dateText,
         'time': _timeText,
         'imageUrl': finalImage,
         'createdAt': DateTime.now(),
-        'masjidName': widget.masjidName, // <--- NEW: Save the specific Mosque Name
+        'masjidName': widget.masjidName, 
       });
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Event Posted!")));

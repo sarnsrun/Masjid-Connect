@@ -45,6 +45,7 @@ class _EventsListPageState extends State<EventsListPage> {
           ? Padding(
               padding: const EdgeInsets.only(bottom: 80),
               child: FloatingActionButton.extended(
+                heroTag: "EventBtn",
                 onPressed: () {
                   showDialog(
                     context: context,

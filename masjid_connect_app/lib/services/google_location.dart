@@ -5,10 +5,8 @@ import 'package:http/http.dart' as http;
 
 class GoogleLocationService {
   
-  // Get key from .env file
   String get _apiKey => dotenv.env['GOOGLE_API_KEY'] ?? "";
 
-  /// Returns: { "address": ..., "city": ..., "state": ..., "mosqueName": ... }
   Future<Map<String, String>> getCurrentLocation() async {
     if (_apiKey.isEmpty) {
       throw Exception("GOOGLE_API_KEY not found in .env file");
@@ -62,19 +60,26 @@ class GoogleLocationService {
 
           for (var c in components) {
             List<dynamic> types = c["types"];
+            
             if (types.contains("locality")) {
               city = c["long_name"];
-            } else if (city.isEmpty && types.contains("administrative_area_level_2")) {
+            } 
+            else if (city.isEmpty && types.contains("administrative_area_level_2")) {
               city = c["long_name"];
             }
+            
             if (types.contains("administrative_area_level_1")) {
               state = c["long_name"];
             }
           }
 
+          String formattedAddress = [city, state].where((s) => s.isNotEmpty).join(', ');
+
+          if (formattedAddress.isEmpty) formattedAddress = "Unknown Location";
+
           return {
-            "address": "$city, $state",
-            "city": city,
+            "address": formattedAddress, 
+            "city": city.isNotEmpty ? city : "Kuala Lumpur", 
             "state": state
           };
         }

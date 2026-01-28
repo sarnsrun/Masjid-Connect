@@ -40,7 +40,6 @@ class _MainLayoutState extends State<MainLayout> {
       DonationPage(userRole: widget.userRole, currentMasjidName: ""), 
       const TasbihPage(),
       EventsListPage(userRole: widget.userRole, currentMasjidName: ""),
-      const Center(child: Text("Info Page")),
     ];
 
     return Scaffold(
@@ -126,7 +125,6 @@ class _MainLayoutState extends State<MainLayout> {
             _buildNavItem(Icons.volunteer_activism, "Donation", 1),
             _buildNavImageItem("assets/images/tasbih_false.png", "Tasbih", 2),
             _buildNavItem(Icons.calendar_month, "Events", 3),
-            _buildNavItem(Icons.info_outline, "Info", 4),
           ],
         ),
       ),

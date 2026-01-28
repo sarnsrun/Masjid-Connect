@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:hijri/hijri_calendar.dart'; // Import for Feature 1
+import 'package:hijri/hijri_calendar.dart';
 import '../services/google_location.dart';
 import '../services/prayer.dart';
 
@@ -12,22 +12,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // --- VARIABLES ---
   final Color kPrimaryGreen = const Color(0xFF0A4D3C);
   final Color kAccentGold = const Color(0xFFC5A059);
 
-  // Services
   final GoogleLocationService _locationService = GoogleLocationService();
   final PrayerService _prayerService = PrayerService();
 
-  // State Variables
   String _currentAddress = "Locating...";
   String _mosqueName = "Finding nearest mosque...";
-  String _hijriDate = ""; // Feature 1 Variable
+  String _hijriDate = ""; 
   List<Map<String, String>> _prayerTimes = []; 
   String _nextPrayerName = "Fajr"; 
   
-  // Timer Variables
   Timer? _timer;
   DateTime? _targetAdhanTime; 
   DateTime? _targetIqamatTime;
@@ -37,12 +33,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _initHijriDate(); // Feature 1 Init
+    _initHijriDate(); 
     _startTimer();
     _loadData();
   }
 
-  // HIJRI DATE LOGIC 
   void _initHijriDate() {
     HijriCalendar.setLocal('en'); 
     final _today = HijriCalendar.now();
@@ -53,7 +48,6 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _loadData() async {
     try {
-      // 1. Location & Mosque
       final locationData = await _locationService.getCurrentLocation();
       String city = locationData['city']!;
       String detectedMosque = locationData['mosqueName'] ?? "Nearby Mosque";
@@ -65,7 +59,6 @@ class _HomePageState extends State<HomePage> {
         });
       }
 
-      // 2. Prayer Times
       final times = await _prayerService.getPrayerTimes(city);
 
       if (mounted) {
@@ -86,34 +79,55 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  // --- TIMER LOGIC ---
   void _calculateNextPrayer() {
     if (_prayerTimes.isEmpty) return;
+
     final now = DateTime.now();
     DateTime? upcomingPrayerTime;
     String upcomingName = "Fajr";
 
+    const allowedPrayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
+
     for (var i = 0; i < _prayerTimes.length; i++) {
       final pName = _prayerTimes[i]["name"]!;
       final pTime = _prayerTimes[i]["time"]!;
-      if (pName == "Syuruk") continue; 
+
+      if (!allowedPrayers.contains(pName)) continue;
 
       final parts = pTime.split(':');
-      final candidateTime = DateTime(now.year, now.month, now.day, int.parse(parts[0]), int.parse(parts[1]));
+      final candidateTime = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        int.parse(parts[0]),
+        int.parse(parts[1]),
+      );
 
       if (candidateTime.isAfter(now)) {
         upcomingPrayerTime = candidateTime;
         upcomingName = pName;
-        break; 
+        break; // Found the immediate next prayer
       }
     }
 
     if (upcomingPrayerTime == null) {
-      final fajrTime = _prayerTimes[0]["time"]!;
-      final parts = fajrTime.split(':');
+      final firstValidPrayer = _prayerTimes.firstWhere(
+        (p) => allowedPrayers.contains(p["name"]),
+        orElse: () => _prayerTimes[0],
+      );
+
+      final pTime = firstValidPrayer["time"]!;
+      final parts = pTime.split(':');
       final tomorrow = now.add(const Duration(days: 1));
-      upcomingPrayerTime = DateTime(tomorrow.year, tomorrow.month, tomorrow.day, int.parse(parts[0]), int.parse(parts[1]));
-      upcomingName = "Fajr";
+      
+      upcomingPrayerTime = DateTime(
+        tomorrow.year,
+        tomorrow.month,
+        tomorrow.day,
+        int.parse(parts[0]),
+        int.parse(parts[1]),
+      );
+      upcomingName = firstValidPrayer["name"]!;
     }
 
     setState(() {
@@ -149,12 +163,10 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  // --- UI BUILD ---
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Background
         Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -165,7 +177,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        // Content
         SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(16, 20, 16, 30), // Adjusted padding
           child: Column(
@@ -210,7 +221,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           const SizedBox(height: 4),
-          // Feature 1: Hijri Date Display
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(

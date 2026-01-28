@@ -141,7 +141,57 @@ Events ↔ Donation ↔ Profile ↔ Spiritual Tools (Qibla/Tasbih)
 * **GitHub:** Used for version control.  
 * **Branching Strategy:** Created separate branches for features (e.g., feature-auth, feature-ui) and merged into main after review.
 
-## **5\. References**
+## **5. User Flow & Screen Design**
+
+### **5.1 Authentication Flow**
+The entry point for the user. New users sign up, while returning users log in to access the dashboard.
+
+| **Log In Screen** | **Sign Up Screen** |
+|:---:|:---:|
+| <img src="assets/Screenshot 2026-01-29 065632.png" width="300" /> | <img src="assets/Screenshot 2026-01-29 065626.png" width="300" /> |
+| *Users enter credentials to authenticate via Firebase.* | *New users register as 'Masjid Member' or 'Guest'.* |
+
+---
+
+### **5.2 Main Dashboard & Navigation**
+Once authenticated, the user enters the Home Dashboard. The drawer provides access to profile settings.
+
+| **Home Dashboard** | **Navigation Drawer** |
+|:---:|:---:|
+| <img src="assets/Screenshot 2026-01-29 065705.png" width="300" /> | <img src="assets/Screenshot 2026-01-29 065813.png" width="300" /> |
+| *Central hub showing Prayer Times, Countdown, and Geolocation.* | *Side menu for Profile management and App Settings.* |
+
+---
+
+### **5.3 Events & Community**
+Users can browse upcoming masjid activities and view detailed location/schedule information.
+
+| **Events Feed** | **Event Details** |
+|:---:|:---:|
+| <img src="assets/Screenshot 2026-01-29 065730.png" width="300" /> | <img src="assets/Screenshot 2026-01-29 065757.jpg" width="300" /> |
+| *List of lectures and classes managed by the admin.* | *Detailed view with integrated Google Maps location.* |
+
+---
+
+### **5.4 Digital Philanthropy (Donations)**
+A streamlined flow for users to contribute to mosque campaigns securely.
+
+| **Campaign List** | **Payment Gateway** |
+|:---:|:---:|
+| <img src="assets/Screenshot 2026-01-29 065716.png" width="300" /> | <img src="assets/Screenshot 2026-01-29 065741.png" width="300" /> |
+| *Browse active fund drives (e.g., Construction, Food Bank).* | *Select amount and make secure donations via payment gateway.* |
+
+---
+
+### **5.5 Spiritual Utilities**
+Tools to assist the user's daily worship routine.
+
+| **Digital Tasbih** |
+|:---:|
+| <img src="assets/Screenshot 2026-01-29 065724.png" width="300" /> |
+| *A digital counter for Dhikr with reset functionality.* |
+
+## **6\. References**
 
 1. **Joyned. (2024).** *Why Churches Outgrow WhatsApp – 7 Risks and Fixes*. Joyned Blog. [https://www.joynedapp.com/blog/why-churches-outgrow-whatsapp---7-risks-and-fixes](https://www.joynedapp.com/blog/why-churches-outgrow-whatsapp---7-risks-and-fixes)  
 2. **Rosadi, K.I. et al. (2022).** *The Mapping of Mosque Community to Improve Mosque Engagement in Community*. [https://www.researchgate.net/publication/357537528\_The\_Mapping\_of\_Mosque\_Community\_to\_Improve\_Mosque\_Engagement\_in\_Community](https://www.researchgate.net/publication/357537528_The_Mapping_of_Mosque_Community_to_Improve_Mosque_Engagement_in_Community)  

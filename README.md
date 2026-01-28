@@ -179,7 +179,7 @@ A streamlined flow for users to contribute to mosque campaigns securely.
 | **Campaign List** | **Payment Gateway** |
 |:---:|:---:|
 | <img src="assets/Screenshot 2026-01-29 065716.png" width="300" /> | <img src="assets/Screenshot 2026-01-29 065741.png" width="300" /> |
-| *Browse active fund drives (e.g., Construction, Food Bank).* | *Select amount and make secure donations via payment gateway.* |
+| *Browse active fund drives (e.g., Construction, Food Bank).* | *Select amount and make demo donations.* |
 
 ---
 
